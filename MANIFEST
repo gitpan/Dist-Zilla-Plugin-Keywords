@@ -14,6 +14,7 @@ dist.ini
 lib/Dist/Zilla/Plugin/Keywords.pm
 t/00-report-prereqs.t
 t/01-basic.t
+t/02-keywords-from-file.t
 weaver.ini
 xt/author/00-compile.t
 xt/author/pod-spell.t

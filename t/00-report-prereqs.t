@@ -55,8 +55,10 @@ my $static_prereqs = do { my $x = {
                                       },
                       'requires' => {
                                       'Dist::Zilla' => '5.013',
+                                      'Dist::Zilla::Plugin::Bootstrap::lib' => '0',
                                       'Dist::Zilla::Plugin::GitHub::Update' => '0',
                                       'Dist::Zilla::Plugin::GithubMeta' => '0',
+                                      'Dist::Zilla::Plugin::Keywords' => '0',
                                       'Dist::Zilla::Plugin::MakeMaker::Fallback' => '0',
                                       'Dist::Zilla::Plugin::ModuleBuildTiny' => '0.004',
                                       'Dist::Zilla::Plugin::Prereqs' => '0',
@@ -80,6 +82,7 @@ my $static_prereqs = do { my $x = {
        'runtime' => {
                       'requires' => {
                                       'Dist::Zilla::Role::MetaProvider' => '0',
+                                      'Dist::Zilla::Role::PPI' => '0',
                                       'Moose' => '0',
                                       'Moose::Util::TypeConstraints' => '0',
                                       'MooseX::Types::Common::String' => '0',

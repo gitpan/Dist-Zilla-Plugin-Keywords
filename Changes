@@ -1,4 +1,8 @@
 Revision history for Dist-Zilla-Plugin-Keywords
 
+0.002     2014-03-13 12:33:31Z
+          - now also adds keywods from a "KEYWORDS:" comment in the main
+            module
+
 0.001     2014-03-12 15:14:03Z
           - Initial release.

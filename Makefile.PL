@@ -81,6 +81,7 @@ my %WriteMakefileArgs = (
   "NAME" => "Dist::Zilla::Plugin::Keywords",
   "PREREQ_PM" => {
     "Dist::Zilla::Role::MetaProvider" => 0,
+    "Dist::Zilla::Role::PPI" => 0,
     "Moose" => 0,
     "Moose::Util::TypeConstraints" => 0,
     "MooseX::Types::Common::String" => 0,
@@ -101,7 +102,7 @@ my %WriteMakefileArgs = (
     "if" => 0,
     "version" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -110,6 +111,7 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Dist::Zilla::Role::MetaProvider" => 0,
+  "Dist::Zilla::Role::PPI" => 0,
   "ExtUtils::MakeMaker" => 0,
   "File::Spec::Functions" => 0,
   "List::Util" => 0,
