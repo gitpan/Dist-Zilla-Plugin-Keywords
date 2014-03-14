@@ -5,7 +5,13 @@
    ],
    "dynamic_config" : 0,
    "generated_by" : "Dist::Zilla version 5.013, CPAN::Meta::Converter version 2.140640",
-   "keywords" : [],
+   "keywords" : [
+      "plugin",
+      "distribution",
+      "metadata",
+      "cpan-meta",
+      "keywords"
+   ],
    "license" : [
       "perl_5"
    ],
@@ -95,7 +101,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::Keywords" : {
          "file" : "lib/Dist/Zilla/Plugin/Keywords.pm",
-         "version" : "0.002"
+         "version" : "0.003"
       }
    },
    "release_status" : "stable",
@@ -111,7 +117,7 @@
          "web" : "https://github.com/karenetheridge/Dist-Zilla-Plugin-Keywords"
       }
    },
-   "version" : "0.002",
+   "version" : "0.003",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.019009"

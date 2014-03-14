@@ -1,5 +1,9 @@
 Revision history for Dist-Zilla-Plugin-Keywords
 
+0.003     2014-03-14 15:35:22Z
+          - properly extract keywords from other comments than the first one
+            in the module
+
 0.002     2014-03-13 12:33:31Z
           - now also adds keywods from a "KEYWORDS:" comment in the main
             module

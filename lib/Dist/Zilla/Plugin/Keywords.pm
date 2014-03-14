@@ -4,8 +4,8 @@ package Dist::Zilla::Plugin::Keywords;
 BEGIN {
   $Dist::Zilla::Plugin::Keywords::AUTHORITY = 'cpan:ETHER';
 }
-# git description: v0.001-1-g730a7f6
-$Dist::Zilla::Plugin::Keywords::VERSION = '0.002';
+# git description: v0.002-1-g81589fb
+$Dist::Zilla::Plugin::Keywords::VERSION = '0.003';
 # ABSTRACT: add keywords to metadata in your distribution
 # KEYWORDS: plugin distribution metadata cpan-meta keywords
 # vim: set ts=8 sw=4 tw=78 et :
@@ -50,8 +50,14 @@ sub keywords_from_file
     my ($self, $file) = @_;
 
     my $document = $self->ppi_document_for_file($file);
-    my $node = $document->find_first('PPI::Token::Comment');
-    my @keywords = $node->content =~ m/^\s*#+\s*KEYWORDS:\s*(.+)$/mg;
+
+    my @keywords;
+    $document->find(
+        sub {
+            die if $_[1]->isa('PPI::Token::Comment')
+                and (@keywords = $_[1]->content =~ m/^\s*#+\s*KEYWORDS:\s*(.+)$/m);
+        }
+    );
     $self->log('found keyword string in main module: ' . $_) foreach @keywords;
     return map { split /\s+/ } @keywords;
 }
@@ -72,7 +78,7 @@ Dist::Zilla::Plugin::Keywords - add keywords to metadata in your distribution
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
