@@ -4,14 +4,15 @@ package Dist::Zilla::Plugin::Keywords;
 BEGIN {
   $Dist::Zilla::Plugin::Keywords::AUTHORITY = 'cpan:ETHER';
 }
-# git description: v0.002-1-g81589fb
-$Dist::Zilla::Plugin::Keywords::VERSION = '0.003';
+# git description: v0.003-1-g4a0135e
+$Dist::Zilla::Plugin::Keywords::VERSION = '0.004';
 # ABSTRACT: add keywords to metadata in your distribution
 # KEYWORDS: plugin distribution metadata cpan-meta keywords
 # vim: set ts=8 sw=4 tw=78 et :
 
 use Moose;
-with 'Dist::Zilla::Role::MetaProvider', 'Dist::Zilla::Role::PPI';
+with 'Dist::Zilla::Role::MetaProvider',
+    'Dist::Zilla::Role::PPI' => { -version => '5.009' };
 use Moose::Util::TypeConstraints;
 use MooseX::Types::Moose 'ArrayRef';
 use MooseX::Types::Common::String 'NonEmptySimpleStr';
@@ -78,7 +79,7 @@ Dist::Zilla::Plugin::Keywords - add keywords to metadata in your distribution
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

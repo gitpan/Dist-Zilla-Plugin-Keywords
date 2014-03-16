@@ -68,7 +68,7 @@
       "runtime" : {
          "requires" : {
             "Dist::Zilla::Role::MetaProvider" : "0",
-            "Dist::Zilla::Role::PPI" : "0",
+            "Dist::Zilla::Role::PPI" : "5.009",
             "Moose" : "0",
             "Moose::Util::TypeConstraints" : "0",
             "MooseX::Types::Common::String" : "0",
@@ -101,7 +101,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::Keywords" : {
          "file" : "lib/Dist/Zilla/Plugin/Keywords.pm",
-         "version" : "0.003"
+         "version" : "0.004"
       }
    },
    "release_status" : "stable",
@@ -117,7 +117,7 @@
          "web" : "https://github.com/karenetheridge/Dist-Zilla-Plugin-Keywords"
       }
    },
-   "version" : "0.003",
+   "version" : "0.004",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.019009"

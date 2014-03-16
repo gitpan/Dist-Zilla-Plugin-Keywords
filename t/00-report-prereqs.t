@@ -82,7 +82,7 @@ my $static_prereqs = do { my $x = {
        'runtime' => {
                       'requires' => {
                                       'Dist::Zilla::Role::MetaProvider' => '0',
-                                      'Dist::Zilla::Role::PPI' => '0',
+                                      'Dist::Zilla::Role::PPI' => '5.009',
                                       'Moose' => '0',
                                       'Moose::Util::TypeConstraints' => '0',
                                       'MooseX::Types::Common::String' => '0',
