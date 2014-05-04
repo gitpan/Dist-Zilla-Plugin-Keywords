@@ -17,21 +17,7 @@ my $tzil = Builder->from_config(
                 [ MetaJSON => ],
                 [ Keywords => ],
             ),
-            path(qw(source lib Foo.pm)) => <<MODULE,
-package Foo;
-# ABSTRACT: here there be Foo
-# here is an irrelevant comment
-# KEYWORDS: foo bar baz
-# KEYWORDS: and more here, to be ignored
-1;
-=pod
-
-=head1 SYNOPSIS
-
-    # KEYWORDS: do not find these
-
-=cut
-MODULE
+            path(qw(source lib Foo.pm)) => "package Foo;\n1\n",
         },
     },
 );
@@ -42,17 +28,10 @@ $tzil->build;
 my $json = path($tzil->tempdir, qw(build META.json))->slurp_raw;
 cmp_deeply(
     $json,
-    json(superhashof({
-        dynamic_config => 0,
-        keywords => [ qw(foo bar baz) ],
-    })),
-    'metadata is correct',
+    json(
+        code(sub { return !exists $_[0]->{keywords} ? 1 : ( 0, 'found keywords key' ) }),
+    ),
+    'empty keywords field does not appear in metadata',
 ) or diag 'saw messages:' . join("\n", @{ $tzil->log_messages });
-
-cmp_deeply(
-    $tzil->log_messages,
-    superbagof('[Keywords] found keyword string in main module: foo bar baz'),
-    'we logged the strings we used',
-) or diag 'got: ', explain $tzil->log_messages;
 
 done_testing;

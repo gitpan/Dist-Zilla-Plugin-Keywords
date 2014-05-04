@@ -8,6 +8,9 @@ use Test::Deep::JSON;
 use Test::DZil;
 use Path::Tiny;
 
+plan skip_all => 'proper keyword merging depends on CPAN::Meta::Merge and Dist::Zilla support'
+    unless $ENV{AUTHOR_TESTING} and eval 'require CPAN::Meta::Merge; 1';
+
 my $tzil = Builder->from_config(
     { dist_root => 't/does_not_exist' },
     {
@@ -15,23 +18,10 @@ my $tzil = Builder->from_config(
             path(qw(source dist.ini)) => simple_ini(
                 [ GatherDir => ],
                 [ MetaJSON => ],
-                [ Keywords => ],
+                [ Keywords => 'from plugin' => { keywords => [qw(foo bar)] } ],
+                [ Keywords => 'direct' => { keywords => [qw(bar baz)] } ],
             ),
-            path(qw(source lib Foo.pm)) => <<MODULE,
-package Foo;
-# ABSTRACT: here there be Foo
-# here is an irrelevant comment
-# KEYWORDS: foo bar baz
-# KEYWORDS: and more here, to be ignored
-1;
-=pod
-
-=head1 SYNOPSIS
-
-    # KEYWORDS: do not find these
-
-=cut
-MODULE
+            path(qw(source lib Foo.pm)) => "package Foo;\n1\n",
         },
     },
 );
@@ -44,15 +34,9 @@ cmp_deeply(
     $json,
     json(superhashof({
         dynamic_config => 0,
-        keywords => [ qw(foo bar baz) ],
+        keywords => [qw(foo bar baz)],
     })),
-    'metadata is correct',
+    'metadata contains merged keywords',
 ) or diag 'saw messages:' . join("\n", @{ $tzil->log_messages });
-
-cmp_deeply(
-    $tzil->log_messages,
-    superbagof('[Keywords] found keyword string in main module: foo bar baz'),
-    'we logged the strings we used',
-) or diag 'got: ', explain $tzil->log_messages;
 
 done_testing;

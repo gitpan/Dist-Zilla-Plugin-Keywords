@@ -46,20 +46,20 @@ my $static_prereqs = do { my $x = {
        'configure' => {
                         'requires' => {
                                         'ExtUtils::MakeMaker' => '6.30',
-                                        'Module::Build::Tiny' => '0.035'
+                                        'Module::Build::Tiny' => '0.036'
                                       }
                       },
        'develop' => {
                       'recommends' => {
-                                        'Dist::Zilla::PluginBundle::Author::ETHER' => '0.053'
+                                        'Dist::Zilla::PluginBundle::Author::ETHER' => '0.060'
                                       },
                       'requires' => {
-                                      'Dist::Zilla' => '5.013',
+                                      'Dist::Zilla' => '5.015',
                                       'Dist::Zilla::Plugin::Bootstrap::lib' => '0',
                                       'Dist::Zilla::Plugin::GitHub::Update' => '0',
                                       'Dist::Zilla::Plugin::GithubMeta' => '0',
                                       'Dist::Zilla::Plugin::Keywords' => '0',
-                                      'Dist::Zilla::Plugin::MakeMaker::Fallback' => '0',
+                                      'Dist::Zilla::Plugin::MakeMaker::Fallback' => '0.008',
                                       'Dist::Zilla::Plugin::ModuleBuildTiny' => '0.004',
                                       'Dist::Zilla::Plugin::Prereqs' => '0',
                                       'Dist::Zilla::Plugin::Test::CleanNamespaces' => '0',
@@ -83,12 +83,13 @@ my $static_prereqs = do { my $x = {
                       'requires' => {
                                       'Dist::Zilla::Role::MetaProvider' => '0',
                                       'Dist::Zilla::Role::PPI' => '5.009',
+                                      'Encode' => '0',
                                       'Moose' => '0',
                                       'Moose::Util::TypeConstraints' => '0',
                                       'MooseX::Types::Common::String' => '0',
                                       'MooseX::Types::Moose' => '0',
                                       'namespace::autoclean' => '0',
-                                      'perl' => '5.006',
+                                      'perl' => '5.008',
                                       'strict' => '0',
                                       'warnings' => '0'
                                     }
@@ -108,6 +109,7 @@ my $static_prereqs = do { my $x = {
                                    'Test::Deep::JSON' => '0',
                                    'Test::More' => '0',
                                    'if' => '0',
+                                   'utf8' => '0',
                                    'version' => '0'
                                  }
                  }

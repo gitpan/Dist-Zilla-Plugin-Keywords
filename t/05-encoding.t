@@ -1,6 +1,7 @@
 use strict;
 use warnings FATAL => 'all';
 
+use utf8;
 use Test::More;
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Deep;
@@ -21,16 +22,9 @@ my $tzil = Builder->from_config(
 package Foo;
 # ABSTRACT: here there be Foo
 # here is an irrelevant comment
-# KEYWORDS: foo bar baz
-# KEYWORDS: and more here, to be ignored
+use utf8;
+# KEYWORDS: pi π
 1;
-=pod
-
-=head1 SYNOPSIS
-
-    # KEYWORDS: do not find these
-
-=cut
 MODULE
         },
     },
@@ -44,15 +38,15 @@ cmp_deeply(
     $json,
     json(superhashof({
         dynamic_config => 0,
-        keywords => [ qw(foo bar baz) ],
+        keywords => ['pi', 'π'],
     })),
-    'metadata is correct',
+    'metadata contains keywords',
 ) or diag 'saw messages:' . join("\n", @{ $tzil->log_messages });
 
 cmp_deeply(
     $tzil->log_messages,
-    superbagof('[Keywords] found keyword string in main module: foo bar baz'),
-    'we logged the strings we used',
+    superbagof('[Keywords] found keyword string in main module: pi π'),
+    'we logged the strings we used, with no encoding errors',
 ) or diag 'got: ', explain $tzil->log_messages;
 
 done_testing;
