@@ -4,9 +4,9 @@ package Dist::Zilla::Plugin::Keywords;
 BEGIN {
   $Dist::Zilla::Plugin::Keywords::AUTHORITY = 'cpan:ETHER';
 }
-# git description: v0.004-8-g709add4
-$Dist::Zilla::Plugin::Keywords::VERSION = '0.005';
-# ABSTRACT: add keywords to metadata in your distribution
+# git description: v0.005-12-gc788898
+$Dist::Zilla::Plugin::Keywords::VERSION = '0.006';
+# ABSTRACT: Add keywords to metadata in your distribution
 # KEYWORDS: plugin distribution metadata cpan-meta keywords
 # vim: set ts=8 sw=4 tw=78 et :
 
@@ -16,7 +16,7 @@ with 'Dist::Zilla::Role::MetaProvider',
 use Moose::Util::TypeConstraints;
 use MooseX::Types::Moose 'ArrayRef';
 use MooseX::Types::Common::String 'NonEmptySimpleStr';
-use Encode 'decode';
+use Encode;
 use namespace::autoclean;
 
 my $word = subtype NonEmptySimpleStr,
@@ -40,6 +40,17 @@ has keywords => (
         \@keywords;
     },
 );
+
+around dump_config => sub
+{
+    my ($orig, $self) = @_;
+    my $config = $self->$orig;
+
+    $config->{+__PACKAGE__} = {
+        keywords => $self->keywords,
+    };
+    return $config;
+};
 
 sub metadata
 {
@@ -67,9 +78,9 @@ sub keywords_from_file
     return if not $keywords;
 
     # TODO: skip decoding logic if/when PPI is new enough
-    $keywords = decode($file->encoding, $keywords, Encode::FB_CROAK);
+    $keywords = Encode::decode($file->encoding, $keywords, Encode::FB_CROAK);
 
-    $self->log('found keyword string in main module: ' . $keywords);
+    $self->log_debug('found keyword string in main module: ' . $keywords);
     return split /\s+/, $keywords;
 }
 
@@ -83,11 +94,11 @@ __END__
 
 =head1 NAME
 
-Dist::Zilla::Plugin::Keywords - add keywords to metadata in your distribution
+Dist::Zilla::Plugin::Keywords - Add keywords to metadata in your distribution
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -109,7 +120,7 @@ And in your main module:
 =head1 DESCRIPTION
 
 This plugin adds metadata to your distribution under the C<keywords> field.
-The L<CPAN meta specification|https://metacpan.org/pod/CPAN::Meta::Spec#keywords>
+The L<CPAN meta specification|CPAN::Meta::Spec/keywords>
 defines this field as:
 
     A List of keywords that describe this distribution. Keywords must not include whitespace.
@@ -140,7 +151,7 @@ I am also usually active on irc, as 'ether' at C<irc.perl.org>.
 
 =item *
 
-L<https://metacpan.org/pod/CPAN::Meta::Spec#keywords>
+L<CPAN::Meta::Spec/keywords>
 
 =back
 

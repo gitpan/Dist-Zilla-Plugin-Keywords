@@ -4,7 +4,6 @@ use warnings FATAL => 'all';
 use Test::More;
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Deep;
-use Test::Deep::JSON;
 use Test::DZil;
 use Path::Tiny;
 
@@ -16,27 +15,25 @@ author   = E. Xavier Ample <example@example.org>
 license  = Perl_5
 copyright_holder = E. Xavier Ample
 
+[MetaConfig]
 PREAMBLE
 
 foreach my $dist_ini (
     simple_ini(
-        [ MetaJSON => ],
+        [ MetaConfig => ],
         [ Keywords => { keywords => [ qw(foo bar baz) ] } ],
     ),
     $preamble . <<'INI',
-[MetaJSON]
 [Keywords]
 keyword = foo
 keyword = bar
 keyword = baz
 INI
     $preamble . <<'INI',
-[MetaJSON]
 [Keywords]
 keywords = foo bar baz
 INI
     $preamble . <<'INI',
-[MetaJSON]
 [Keywords]
 keywords = foo bar
 keyword = baz
@@ -52,17 +49,34 @@ INI
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
     $tzil->build;
 
-    my $json = path($tzil->tempdir, qw(build META.json))->slurp_raw;
     cmp_deeply(
-        $json,
-        json(superhashof({
+        $tzil->distmeta,
+        superhashof({
             dynamic_config => 0,
             keywords => [ qw(foo bar baz) ],
-        })),
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::Keywords',
+                        config => {
+                            'Dist::Zilla::Plugin::Keywords' => {
+                                keywords => [qw(foo bar baz)],
+                            },
+                        },
+                        name => 'Keywords',
+                        version => ignore,
+                    },
+                ),
+            }),
+        }),
         'metadata is correct',
-    );
+    ) or diag 'got distmeta: ', explain $tzil->distmeta;
+
+    diag 'saw log messages: ', explain($tzil->log_messages)
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;
